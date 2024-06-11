@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비슷한 단어 찾기</title>
+</head>
+<body>
+    <div>
+        <h3>다음 제시된 단어를 보고 뜻이 서로 비슷한 말을 찾아 5개씩 적어보세요. (중복 사용은 불가능합니다.)</h3>
+        <img src="./1.png" alt="">
+        <div class="input-group">
+            <label for="love-input">1.<strong>'사랑'</strong>과 유사한 단어를 입력하세요:</label>
+            <input type="text" id="love-input" placeholder="단어를 쉼표로 구분하여 입력">
+            <button onclick="updateList('love')">입력</button>
+        </div>
+        <ul id="love-list"></ul>
+        <br>
+        <div class="input-group">
+            <label for="friend-input">2.<strong>'친구'</strong>와 유사한 단어를 입력하세요:</label>
+            <input type="text" id="friend-input" placeholder="단어를 쉼표로 구분하여 입력">
+            <button onclick="updateList('friend')">입력</button>
+        </div>
+        <ul id="friend-list"></ul>
+        <br>
+        <div class="input-group">
+            <label for="teacher-input">3.<strong>'선생'</strong>과 유사한 단어를 입력하세요:</label>
+            <input type="text" id="teacher-input" placeholder="단어를 쉼표로 구분하여 입력">
+            <button onclick="updateList('teacher')">입력</button>
+        </div>
+        <ul id="teacher-list"></ul>
+        <br>
+        <div class="input-group">
+            <label for="news-input">4.<strong>'소식'</strong>과 유사한 단어를 입력하세요:</label>
+            <input type="text" id="news-input" placeholder="단어를 쉼표로 구분하여 입력">
+            <button onclick="updateList('news')">입력</button>
+        </div>
+        <ul id="news-list"></ul>
+        <br>
+    </div>
+
+    <script>
+        const words = {
+            love: ["애정", "연애", "사모", "연정", "애정"],
+            friend: ["동무", "동료", "교우", "벗", "친애"],
+            teacher: ["스승", "교사", "은사", "교원", "사부"],
+            news: ["편지", "신문", "뉴스", "안부", "기별"]
+        };
+        function updateList(category) {
+            const inputId = `#${category}-input`;
+            const listId = `#${category}-list`;
+            const input = document.querySelector(inputId).value;
+            const list = document.querySelector(listId);
+            const inputWords = input.split(',').map(word => word.trim());
+
+            if (arraysEqual(inputWords, words[category])) {
+                list.innerHTML = '';
+                inputWords.forEach(word => {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = word;
+                    list.appendChild(listItem);
+                });
+            } else {
+                alert(`입력된 단어가 유효하지 않습니다. 다시 입력하세요.`);
+                document.querySelector(inputId).value = ''; 
+            }
+        }
+        function arraysEqual(arr1, arr2) {
+            if (arr1.length !== arr2.length) return false;
+            arr1.sort();
+            arr2.sort();
+            for (let i = 0; i < arr1.length; i++) {
+                if (arr1[i] !== arr2[i]) return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
